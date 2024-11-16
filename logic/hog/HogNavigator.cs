@@ -5,32 +5,37 @@ using Godot;
  */
 public partial class HogNavigator : Node
 {
-    public const float DIST_FACTOR = 100;
-    private Vector2 TargetPosition;
-    private Vector2[] pathPts;
+    private const float DIST_SQUARED_MIN = 9;
+    public Vector2 TargetPosition;
+    public Vector2[] pathPts;
 
     /**
      * Determine a new target position based on birdseye position, direction and speed.
      */
-    public void UpdateTargetPosition(Vector2 birdseyePos, float dir, float speed)
+    public void UpdateTargetPosition(Vector2 birdseyePos, float polarDirection, float speed)
     {
-        Vector2 directionVec = Vector2.Right.Rotated(dir).Normalized();
+        Vector2 directionVec = Vector2.Right.Rotated(polarDirection).Normalized();
         // target position will be some distance in front of the hog
-        TargetPosition = birdseyePos + (directionVec * speed * DIST_FACTOR);
+        TargetPosition = birdseyePos + (directionVec * speed);
     }
 
     /**
-     * Compute a new position on the navmesh.
+     * Compute a new position on the birdseye navmesh.
      */
     public Vector2 GetNextPosition(double delta, Vector2 birdseyePos, float speed)
     {
         Vector2 output = birdseyePos;
         if(Global.Instance.MapRid.IsValid)
         {
-            pathPts = NavigationServer2D.MapGetPath(Global.Instance.MapRid, birdseyePos, TargetPosition, false);
-            if(pathPts.Length > 0)
+            bool found = false;
+            pathPts = NavigationServer2D.MapGetPath(Global.Instance.MapRid, birdseyePos, TargetPosition, true);
+            for(int ptIndex = 0; ptIndex < pathPts.Length && !found; ++ptIndex)
             {
-                output = birdseyePos.MoveToward(pathPts[0], speed * (float)delta);
+                if(pathPts[ptIndex].DistanceSquaredTo(birdseyePos) >= DIST_SQUARED_MIN)
+                {
+                    output = birdseyePos.MoveToward(pathPts[ptIndex], speed * (float)delta);
+                    found = true;
+                }
             }
         }
         return output;

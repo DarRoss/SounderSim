@@ -6,7 +6,7 @@ using Godot;
 public partial class Hog : Node2D
 {
     // for use in moving towards desired speed and direction
-    private const float SPEED_LERP = 100;
+    private const float SPEED_LERP = 5;
     private const float DIRECTION_LERP = 1;
 
     // The time between intermittent calculations. Measured in seconds.
@@ -18,7 +18,7 @@ public partial class Hog : Node2D
     private HogDetectionArea neighborDetectionArea;
     private HogNavigator navigator;
     private HogDirector director;
-    private HogMesh mesh;
+    private HogMeshManipulator meshManipulator;
 
     // other nodes
     private Timer intermittentTimer = new();
@@ -58,7 +58,7 @@ public partial class Hog : Node2D
         neighborDetectionArea = GetNode<HogDetectionArea>("HogDetectionArea");
         navigator = GetNode<HogNavigator>("HogNavigator");
         director = GetNode<HogDirector>("HogDirector");
-        mesh = GetNode<HogMesh>("HogMesh");
+        meshManipulator = GetNode<HogMeshManipulator>("HogMeshManipulator");
 
         // update packet information
         HogInfoPacket.HogName = Name;
@@ -80,7 +80,7 @@ public partial class Hog : Node2D
     {
         AdjustCurrentVelocity(delta);
         HogInfoPacket.BirdseyePosition = navigator.GetNextPosition(delta, HogInfoPacket.BirdseyePosition, currSpeed);
-        mesh.SetDirection(HogInfoPacket.PolarDirection);
+        meshManipulator.SetDirection(HogInfoPacket.PolarDirection);
         GlobalPosition = HogInfoPacket.BirdseyePosition;
     }
 
@@ -93,6 +93,15 @@ public partial class Hog : Node2D
         NeighborAveragePosition = neighborDetectionArea.GetAverageNeighborPosition();
         director.UpdateDesiredDirection();
         sounderCommunicator.AnnounceHogInfoToSounder(HogInfoPacket);
+
+        if(Name == "Hog1")
+        {
+//            GD.Print(navigator.TargetPosition);
+//            if(navigator.pathPts.Length > 0)
+//            {
+//                GD.Print(navigator.pathPts[0]);
+//            }
+        }
     }
 
     /**

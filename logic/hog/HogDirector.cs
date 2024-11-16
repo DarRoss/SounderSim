@@ -23,27 +23,27 @@ public partial class HogDirector : Node
     {
         S2hInfo sounderInfo = hog.SounderInfo;
         // vector pointing to average position of hogs in the sounder
-        Vector2 avgPosVec = sounderInfo.AverageBirdseyePosition - hog.GlobalPosition;
+        Vector2 avgPosVec = sounderInfo.AverageBirdseyePosition - hog.HogInfoPacket.BirdseyePosition;
         // polar direction of the above vector
         float avgPosDir = Vector2.Right.AngleTo(avgPosVec);
 
         if (hog.NeighborAveragePosition != Vector2.Inf)
         {
             // vector pointing away from average position of neighbours
-            Vector2 negNeighborVec = hog.GlobalPosition - hog.NeighborAveragePosition;
+            Vector2 negNeighborVec = hog.HogInfoPacket.BirdseyePosition - hog.NeighborAveragePosition;
             // polar direction of the above vector
             float negNeighborDir = Vector2.Right.AngleTo(negNeighborVec);
 
             HogDesiredPolarDirection
-                = 0.6f * negNeighborDir
-                + 0.3f * sounderInfo.AveragePolarDirection
+                = 0.8f * negNeighborDir
+                + 0.1f * sounderInfo.AveragePolarDirection
                 + 0.1f * avgPosDir;
         }
         else
         {
             HogDesiredPolarDirection
-                = 0.4f * sounderInfo.AveragePolarDirection
-                + 0.6f * avgPosDir;
+                = 0.6f * sounderInfo.AveragePolarDirection
+                + 0.4f * avgPosDir;
         }
            
         HogDesiredPolarDirection = 

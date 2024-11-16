@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class HogMesh : MeshInstance2D
+public partial class HogMeshManipulator : Node2D
 {
     public void SetDirection(float direction)
     {

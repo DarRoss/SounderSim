@@ -11,7 +11,7 @@ public partial class Sounder : Node2D
     private float communicationInterval = 0.1f;
     // All hogs in the sounder should travel at this speed.
     [Export]
-    private float sounderDesiredSpeed = 100;
+    private float sounderDesiredSpeed = 20;
     [Signal]
     public delegate void AnnounceSounderInfoEventHandler(S2hInfo packet);
 
