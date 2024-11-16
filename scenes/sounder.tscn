@@ -1,3 +1,29 @@
-[gd_scene format=3 uid="uid://bfvyrsxi75jdk"]
+[gd_scene load_steps=3 format=3 uid="uid://bfvyrsxi75jdk"]
+
+[ext_resource type="Script" path="res://logic/Sounder.cs" id="1_x5boi"]
+[ext_resource type="PackedScene" uid="uid://brtn80ctc7ths" path="res://scenes/hog.tscn" id="2_25klp"]
 
 [node name="Sounder" type="Node2D"]
+script = ExtResource("1_x5boi")
+
+[node name="HogChildren" type="Node2D" parent="."]
+
+[node name="Hog1" parent="HogChildren" instance=ExtResource("2_25klp")]
+
+[node name="Hog2" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-11, -19)
+
+[node name="Hog3" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-11, 18)
+
+[node name="Hog4" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(10, 18)
+
+[node name="Hog5" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(21, 0)
+
+[node name="Hog6" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-22, 0)
+
+[node name="Hog7" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(10, -19)
