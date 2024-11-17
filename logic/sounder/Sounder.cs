@@ -4,19 +4,20 @@ using Godot;
 /**
  * A herd of hogs.
  */
-public partial class Sounder : Node2D
+public partial class Sounder : Node
 {
     // Time between sounder announcements.
     [Export]
     private float communicationInterval = 0.1f;
     // All hogs in the sounder should travel at this speed.
     [Export]
-    private float sounderDesiredSpeed = 20;
+    private float sounderDesiredSpeed = 15;
     [Signal]
     public delegate void AnnounceSounderInfoEventHandler(S2hInfo packet);
 
     // node whose children belong to the hog class
-    private Node2D hogChildrenNode;
+    private Node hogChildrenNode;
+    private Node2D hazardDetector;
     // timer for sounder announcements
     private Timer intermittentTimer = new();
     private S2hInfo sounderInfo = new();
@@ -30,7 +31,8 @@ public partial class Sounder : Node2D
 
     public override void _Ready()
     {
-        hogChildrenNode = GetNode<Node2D>("HogChildren");
+        hogChildrenNode = GetNode("HogChildren");
+        hazardDetector = GetNode<Node2D>("SounderHazardDetector");
         foreach(Node child in hogChildrenNode.GetChildren())
         {
             if (child is Hog hogChild)
@@ -63,7 +65,7 @@ public partial class Sounder : Node2D
      */
     private bool AddHogChild(Hog hogChild)
     {
-        bool success = hogInfoDict.TryAdd(hogChild.Name, hogChild.HogInfoPacket);
+        bool success = hogInfoDict.TryAdd(hogChild.Name, hogChild.InfoPacket);
         // add the hog to the info dictionary
         if(success)
         {
@@ -165,5 +167,6 @@ public partial class Sounder : Node2D
         sounderInfo.AveragePolarDirection = polarDirectionSum / hogInfoDict.Count;
         sounderInfo.AverageBirdseyePosition = birdseyePositionSum / hogInfoDict.Count;
         EmitSignal(SignalName.AnnounceSounderInfo, sounderInfo);
+        hazardDetector.GlobalPosition = sounderInfo.AverageBirdseyePosition;
     }
 }

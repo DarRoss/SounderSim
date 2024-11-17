@@ -5,9 +5,10 @@ using Godot;
  */
 public partial class HogNavigator : Node
 {
-    private const float DIST_SQUARED_MIN = 9;
-    public Vector2 TargetPosition;
-    public Vector2[] pathPts;
+    private const float TARGET_DIST_FACTOR = 4;
+    private const float DIST_SQUARED_MIN = 1;
+    private Vector2 TargetPosition;
+    private Vector2[] pathPts;
 
     /**
      * Determine a new target position based on birdseye position, direction and speed.
@@ -16,7 +17,7 @@ public partial class HogNavigator : Node
     {
         Vector2 directionVec = Vector2.Right.Rotated(polarDirection).Normalized();
         // target position will be some distance in front of the hog
-        TargetPosition = birdseyePos + (directionVec * speed);
+        TargetPosition = birdseyePos + (directionVec * speed * TARGET_DIST_FACTOR);
     }
 
     /**

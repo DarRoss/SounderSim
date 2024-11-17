@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfvyrsxi75jdk"]
+[gd_scene load_steps=5 format=3 uid="uid://bfvyrsxi75jdk"]
 
-[ext_resource type="Script" path="res://logic/Sounder.cs" id="1_x5boi"]
+[ext_resource type="Script" path="res://logic/sounder/Sounder.cs" id="1_x5boi"]
 [ext_resource type="PackedScene" uid="uid://brtn80ctc7ths" path="res://scenes/hog.tscn" id="2_25klp"]
+[ext_resource type="Script" path="res://logic/sounder/SounderHazardDetector.cs" id="3_uq23m"]
 
-[node name="Sounder" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_36u7y"]
+radius = 0.01
+
+[node name="Sounder" type="Node"]
 script = ExtResource("1_x5boi")
 
-[node name="HogChildren" type="Node2D" parent="."]
+[node name="HogChildren" type="Node" parent="."]
 
 [node name="Hog1" parent="HogChildren" instance=ExtResource("2_25klp")]
 
@@ -27,3 +31,9 @@ position = Vector2(-22, 0)
 
 [node name="Hog7" parent="HogChildren" instance=ExtResource("2_25klp")]
 position = Vector2(10, -19)
+
+[node name="SounderHazardDetector" type="Area2D" parent="."]
+script = ExtResource("3_uq23m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SounderHazardDetector"]
+shape = SubResource("CircleShape2D_36u7y")

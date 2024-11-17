@@ -8,14 +8,14 @@
 [ext_resource type="Script" path="res://logic/hog/HogMeshManipulator.cs" id="5_qtobb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_02kp8"]
-radius = 15.0
+radius = 5.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_48xoi"]
-radius = 2.0
-height = 10.0
+radius = 0.7
+height = 3.0
 
 [sub_resource type="PrismMesh" id="PrismMesh_la52x"]
-size = Vector3(4, 1, 1)
+size = Vector3(2, 1, 1)
 
 [node name="Hog" type="Node2D"]
 script = ExtResource("1_u2d6p")
@@ -34,7 +34,7 @@ rotation = 1.5708
 mesh = SubResource("CapsuleMesh_48xoi")
 
 [node name="Arrow" type="MeshInstance2D" parent="HogMeshManipulator/Body"]
-position = Vector2(0, -6)
+position = Vector2(0, -3)
 rotation = 3.14159
 mesh = SubResource("PrismMesh_la52x")
 

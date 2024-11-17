@@ -28,7 +28,7 @@ public partial class HogDetectionArea : Area2D
                 // ensure that the Area2D is a hog neighbor detection bubble
                 if (area is HogDetectionArea neighborArea)
                 {
-                    neighborPosSum += neighborArea.Hog.HogInfoPacket.BirdseyePosition;
+                    neighborPosSum += neighborArea.Hog.InfoPacket.BirdseyePosition;
                     ++neighborCount;
                 }
             }

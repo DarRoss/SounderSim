@@ -28,7 +28,7 @@ public partial class Hog : Node2D
      */
     // speed that the hog is currently moving at
     private float currSpeed;
-    public H2sInfo HogInfoPacket{get; private set;} = new();
+    public H2sInfo InfoPacket{get; private set;} = new();
     public Vector2 NeighborAveragePosition{get; private set;}
 
     /**
@@ -61,8 +61,8 @@ public partial class Hog : Node2D
         meshManipulator = GetNode<HogMeshManipulator>("HogMeshManipulator");
 
         // update packet information
-        HogInfoPacket.HogName = Name;
-        HogInfoPacket.BirdseyePosition = GlobalPosition;
+        InfoPacket.HogName = Name;
+        InfoPacket.BirdseyePosition = GlobalPosition;
 
         SetupIntermittentTimer();
     }
@@ -79,9 +79,11 @@ public partial class Hog : Node2D
     public override void _PhysicsProcess(double delta)
     {
         AdjustCurrentVelocity(delta);
-        HogInfoPacket.BirdseyePosition = navigator.GetNextPosition(delta, HogInfoPacket.BirdseyePosition, currSpeed);
-        meshManipulator.SetDirection(HogInfoPacket.PolarDirection);
-        GlobalPosition = HogInfoPacket.BirdseyePosition;
+        Vector2 oldPos = InfoPacket.BirdseyePosition;
+        InfoPacket.BirdseyePosition = navigator.GetNextPosition(delta, InfoPacket.BirdseyePosition, currSpeed);
+        Vector2 currDirection = InfoPacket.BirdseyePosition - oldPos;
+        meshManipulator.SetDirection(currDirection);
+        GlobalPosition = InfoPacket.BirdseyePosition;
     }
 
     /**
@@ -89,19 +91,10 @@ public partial class Hog : Node2D
      */
     private void PerformIntermittentCalculations()
     {
-        navigator.UpdateTargetPosition(HogInfoPacket.BirdseyePosition, HogInfoPacket.PolarDirection, currSpeed);
+        navigator.UpdateTargetPosition(InfoPacket.BirdseyePosition, InfoPacket.PolarDirection, currSpeed);
         NeighborAveragePosition = neighborDetectionArea.GetAverageNeighborPosition();
         director.UpdateDesiredDirection();
-        sounderCommunicator.AnnounceHogInfoToSounder(HogInfoPacket);
-
-        if(Name == "Hog1")
-        {
-//            GD.Print(navigator.TargetPosition);
-//            if(navigator.pathPts.Length > 0)
-//            {
-//                GD.Print(navigator.pathPts[0]);
-//            }
-        }
+        sounderCommunicator.AnnounceHogInfoToSounder(InfoPacket);
     }
 
     /**
@@ -109,7 +102,7 @@ public partial class Hog : Node2D
      */
     private void AdjustCurrentVelocity(double delta)
     {
-        HogInfoPacket.PolarDirection = Mathf.LerpAngle(HogInfoPacket.PolarDirection, 
+        InfoPacket.PolarDirection = Mathf.LerpAngle(InfoPacket.PolarDirection, 
             director.HogDesiredPolarDirection, DIRECTION_LERP * (float)delta);
         currSpeed = Mathf.MoveToward(currSpeed, SounderInfo.DesiredSpeed, SPEED_LERP * (float)delta);
     }
@@ -119,11 +112,11 @@ public partial class Hog : Node2D
      */
     private void Die()
     {
-        if(HogInfoPacket.IsAlive)
+        if(InfoPacket.IsAlive)
         {
-            HogInfoPacket.IsAlive = false;
+            InfoPacket.IsAlive = false;
             GD.Print("Hog '" + Name + "' has died");
-            sounderCommunicator.AnnounceHogInfoToSounder(HogInfoPacket);
+            sounderCommunicator.AnnounceHogInfoToSounder(InfoPacket);
             QueueFree();
         }
     }
