@@ -17,7 +17,6 @@ public partial class Sounder : Node
 
     // node whose children belong to the hog class
     private Node hogChildrenNode;
-    private Node2D hazardDetector;
     // timer for sounder announcements
     private Timer intermittentTimer = new();
     private S2hInfo sounderInfo = new();
@@ -32,7 +31,6 @@ public partial class Sounder : Node
     public override void _Ready()
     {
         hogChildrenNode = GetNode("HogChildren");
-        hazardDetector = GetNode<Node2D>("SounderHazardDetector");
         foreach(Node child in hogChildrenNode.GetChildren())
         {
             if (child is Hog hogChild)
@@ -167,6 +165,5 @@ public partial class Sounder : Node
         sounderInfo.AveragePolarDirection = polarDirectionSum / hogInfoDict.Count;
         sounderInfo.AverageBirdseyePosition = birdseyePositionSum / hogInfoDict.Count;
         EmitSignal(SignalName.AnnounceSounderInfo, sounderInfo);
-        hazardDetector.GlobalPosition = sounderInfo.AverageBirdseyePosition;
     }
 }

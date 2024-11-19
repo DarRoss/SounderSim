@@ -21,6 +21,7 @@ size = Vector3(2, 1, 1)
 script = ExtResource("1_u2d6p")
 
 [node name="HogDetectionArea" type="Area2D" parent="."]
+collision_mask = 3
 script = ExtResource("2_lg0pf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HogDetectionArea"]

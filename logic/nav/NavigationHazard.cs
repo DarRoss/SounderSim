@@ -1,67 +1,30 @@
 using Godot;
 
-public enum HazardDirection
+public abstract partial class NavigationHazard : Area2D
 {
-	Radial,
-	Horizontal,
-	Vertical,
-	Up,
-	Down,
-	Left,
-	Right
-}
-
-public partial class NavigationHazard : Area2D
-{
-	[Export]
-	private HazardDirection dirType;
-	[Export]
 	/**
-	 * Gradient boundary determines the hazard's "wall"
-	 * A value of 0: the hazard wall starts at the outer edge.
-	 * A value of 1: the hazard wall starts at the inner edge / center of the shape.
+	 * peakRepelBoundary: determines the location of the hazard's peak repellent wall.
+	 * - A value of 1: peak repellent starts at the shape's leading edge. The entire shape is 100% (peak) repellent.
+	 * - A value of 0: peak repellent starts at the shape's trailing edge / center of the shape. 
+	 *   This means that repellent value increases as you get closer to the trailing edge / center.
 	 */
-	private float gradientBoundary = 0.5f;
-	private RectangleShape2D collisionRectangle;
-	// Called when the node enters the scene tree for the first time.
+	[Export]
+	protected float repelBoundary = 0.5f;
+	/**
+	 * repelLinePos: The position of the line that divides the peak repellent zone and the repellent gradient.
+	 * - May either be horizontal, vertical or radial depending on the hazard direction.
+     * - Is less than or equal to the hazard's halfwidth / radius.
+	 * - Is always a non negative value.
+	 */
+	protected float repelLinePos;
+	protected Vector2 birdseyePosition;
+
 	public override void _Ready()
 	{
-		collisionRectangle = GetNode<CollisionShape2D>("CollisionShape").Shape as RectangleShape2D;
+		repelLinePos = GetRepelLinePos();
+		birdseyePosition = GlobalPosition;
 	}
 
-	/**
-	 * Closeness determines how close you are to the hazard's wall.
-	 * A value of 0: as far from the wall as possible.
-	 * A value of 1: touching / inside the wall.
-	 */
-	public float GetHazardCloseness(Vector2 detectorPos)
-	{
-		float output = 0;
-		Vector2 toDetectorVec = Position - detectorPos;
-		switch(dirType)
-		{
-			case HazardDirection.Radial:
-
-				break;
-			case HazardDirection.Horizontal:
-
-				break;
-			case HazardDirection.Vertical:
-
-				break;
-			case HazardDirection.Up:
-
-				break;
-			case HazardDirection.Down:
-
-				break;
-			case HazardDirection.Left:
-
-				break;
-			case HazardDirection.Right:
-
-				break;
-		}
-		return output;
-	}
+    protected abstract float GetRepelLinePos();
+	public abstract Vector2 GetRepelVector(Vector2 clientBirdseyePos);
 }

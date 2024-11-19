@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://1w01l3h1ggvq"]
+
+[ext_resource type="Script" path="res://logic/nav/NavigationHazardRect.cs" id="1_s1tmq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kllgq"]
+size = Vector2(200, 200)
+
+[node name="NavigationHazardRect" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_s1tmq")
+
+[node name="CollisionRectangle" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kllgq")

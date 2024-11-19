@@ -15,7 +15,7 @@ public partial class Hog : Node2D
 
     // nodes of interest
     private H2sCommunicator sounderCommunicator;
-    private HogDetectionArea neighborDetectionArea;
+    private HogDetectionArea detectionArea;
     private HogNavigator navigator;
     private HogDirector director;
     private HogMeshManipulator meshManipulator;
@@ -30,6 +30,8 @@ public partial class Hog : Node2D
     private float currSpeed;
     public H2sInfo InfoPacket{get; private set;} = new();
     public Vector2 NeighborAveragePosition{get; private set;}
+    // points away from nearby hazards
+    public Vector2 HazardAverageNegVector{get; private set;}
 
     /**
      * "passthrough" variables
@@ -55,7 +57,7 @@ public partial class Hog : Node2D
     {
         // initialize nodes of interest
         sounderCommunicator = GetNode<H2sCommunicator>("H2sCommunicator");
-        neighborDetectionArea = GetNode<HogDetectionArea>("HogDetectionArea");
+        detectionArea = GetNode<HogDetectionArea>("HogDetectionArea");
         navigator = GetNode<HogNavigator>("HogNavigator");
         director = GetNode<HogDirector>("HogDirector");
         meshManipulator = GetNode<HogMeshManipulator>("HogMeshManipulator");
@@ -78,6 +80,7 @@ public partial class Hog : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
+        HazardAverageNegVector = detectionArea.GetNegHazardVector();
         AdjustCurrentVelocity(delta);
         Vector2 oldPos = InfoPacket.BirdseyePosition;
         InfoPacket.BirdseyePosition = navigator.GetNextPosition(delta, InfoPacket.BirdseyePosition, currSpeed);
@@ -92,7 +95,7 @@ public partial class Hog : Node2D
     private void PerformIntermittentCalculations()
     {
         navigator.UpdateTargetPosition(InfoPacket.BirdseyePosition, InfoPacket.PolarDirection, currSpeed);
-        NeighborAveragePosition = neighborDetectionArea.GetAverageNeighborPosition();
+        NeighborAveragePosition = detectionArea.GetAverageNeighborPosition();
         director.UpdateDesiredDirection();
         sounderCommunicator.AnnounceHogInfoToSounder(InfoPacket);
     }

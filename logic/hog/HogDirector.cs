@@ -21,8 +21,8 @@ public partial class HogDirector : Node
         Vector2 avgPosVec = sounderInfo.AverageBirdseyePosition - hog.InfoPacket.BirdseyePosition;
         // polar direction of the above vector
         float avgPosDir = Vector2.Right.AngleTo(avgPosVec);
-
-        if(sounderInfo.DesiredDirectionInfluence < 1)
+        float hazardStrength = hog.HazardAverageNegVector.Length();
+        if(hazardStrength < 1)
         {
             if (hog.NeighborAveragePosition != Vector2.Inf)
             {
@@ -42,19 +42,19 @@ public partial class HogDirector : Node
                     = 0.6f * sounderInfo.AveragePolarDirection
                     + 0.4f * avgPosDir;
             }
-            // check if sounder demands at least some directional control
-            if(sounderInfo.DesiredDirectionInfluence > 0)
+            // check if hazard repellent demands at least some directional control
+            if(hazardStrength > 0)
             {
-                // apply sounder-overridden direction
+                // apply hazard-overridden direction
                 HogDesiredPolarDirection = 
-                    (1 - sounderInfo.DesiredDirectionInfluence) * HogDesiredPolarDirection
-                    + sounderInfo.DesiredDirectionInfluence * sounderInfo.DesiredPolarDirection;
+                    (1 - hazardStrength) * HogDesiredPolarDirection
+                    + hazardStrength * Vector2.Right.AngleTo(hog.HazardAverageNegVector);
             }
         }
         else
         {
-            // sounder demands 100% control of hog direction
-            HogDesiredPolarDirection = sounderInfo.DesiredPolarDirection;
+            // hazard repellent demands 100% control of hog direction
+            HogDesiredPolarDirection = Vector2.Right.AngleTo(hog.HazardAverageNegVector);
         }
     }
 }

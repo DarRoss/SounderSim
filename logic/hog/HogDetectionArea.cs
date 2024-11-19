@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 /**
@@ -36,6 +37,32 @@ public partial class HogDetectionArea : Area2D
             {
                 // calculate average position
                 output = neighborPosSum / neighborCount;
+            }
+        }
+        return output;
+    }
+
+    public Vector2 GetNegHazardVector()
+    {
+        Vector2 output = Vector2.Zero;
+        if(HasOverlappingAreas())
+        {
+            Vector2 repelVectorSum = Vector2.Zero;
+            int hazardCount = 0;
+            Godot.Collections.Array<Area2D> areaArray = GetOverlappingAreas();
+            foreach(Area2D area in areaArray)
+            {
+                // ensure that the Area2D is a navigational hazard
+                if (area is NavigationHazard hazard)
+                {
+                    repelVectorSum += hazard.GetRepelVector(Hog.InfoPacket.BirdseyePosition);
+                    ++hazardCount;
+                }
+            }
+            if(hazardCount > 0)
+            {
+                // calculate average position
+                output = repelVectorSum / hazardCount;
             }
         }
         return output;

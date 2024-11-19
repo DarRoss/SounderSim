@@ -68,3 +68,4 @@ SpeedDown={
 [layer_names]
 
 2d_physics/layer_1="HogDetection"
+2d_physics/layer_2="NavigationHazard"
