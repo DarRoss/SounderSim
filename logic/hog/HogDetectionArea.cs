@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 /**
@@ -10,6 +9,18 @@ public partial class HogDetectionArea : Area2D
     public override void _Ready()
     {
         Hog = GetNode<Hog>("..");
+        InputEvent += ProcessInputEvent;
+    }
+
+    private void ProcessInputEvent(Node viewport, InputEvent ie, long shapeIdx)
+    {
+        if(ie is InputEventMouseButton iemb)
+        {
+            if(iemb.Pressed)
+            {
+                // hog detection area clicked
+            }
+        }
     }
 
     /**
@@ -29,7 +40,7 @@ public partial class HogDetectionArea : Area2D
                 // ensure that the Area2D is a hog neighbor detection bubble
                 if (area is HogDetectionArea neighborArea)
                 {
-                    neighborPosSum += neighborArea.Hog.InfoPacket.BirdseyePosition;
+                    neighborPosSum += neighborArea.Hog.BirdseyePosition;
                     ++neighborCount;
                 }
             }
@@ -42,7 +53,7 @@ public partial class HogDetectionArea : Area2D
         return output;
     }
 
-    public Vector2 GetNegHazardVector()
+    public Vector2 GetAverageHazardRepelVector()
     {
         Vector2 output = Vector2.Zero;
         if(HasOverlappingAreas())
@@ -55,13 +66,13 @@ public partial class HogDetectionArea : Area2D
                 // ensure that the Area2D is a navigational hazard
                 if (area is NavigationHazard hazard)
                 {
-                    repelVectorSum += hazard.GetRepelVector(Hog.InfoPacket.BirdseyePosition);
+                    repelVectorSum += hazard.GetRepelVector(Hog.BirdseyePosition);
                     ++hazardCount;
                 }
             }
             if(hazardCount > 0)
             {
-                // calculate average position
+                // calculate average repel vector
                 output = repelVectorSum / hazardCount;
             }
         }

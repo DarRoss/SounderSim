@@ -2,12 +2,12 @@ using Godot;
 
 public enum HazardRectDirection
 {
-	Horizontal,
-	Vertical,
 	Up,
 	Down,
 	Left,
-	Right
+	Right,
+	Horizontal,
+	Vertical
 }
 
 public partial class NavigationHazardRect : NavigationHazard
@@ -56,7 +56,7 @@ public partial class NavigationHazardRect : NavigationHazard
 		Vector2 repelVector = Vector2.Zero;
 		Vector2 vecToClient = birdseyePosition - clientBirdseyePos;
 		Vector2 clientRelToHaz = vecToClient * GetTransform().Inverse();
-		// check if the client is within the area bounds
+		// check if the client is within the rectangle bounds
 		if( clientRelToHaz.X <=  rectHalfSize.X &&
 			clientRelToHaz.X >= -rectHalfSize.X &&
 			clientRelToHaz.Y <=  rectHalfSize.Y &&

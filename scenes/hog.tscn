@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://brtn80ctc7ths"]
+[gd_scene load_steps=9 format=3 uid="uid://brtn80ctc7ths"]
 
 [ext_resource type="Script" path="res://logic/hog/Hog.cs" id="1_u2d6p"]
 [ext_resource type="Script" path="res://logic/hog/HogDetectionArea.cs" id="2_lg0pf"]
-[ext_resource type="Script" path="res://logic/hog/H2sCommunicator.cs" id="3_xnr8x"]
 [ext_resource type="Script" path="res://logic/hog/HogNavigator.cs" id="4_ihfpw"]
 [ext_resource type="Script" path="res://logic/hog/HogDirector.cs" id="5_i54jq"]
 [ext_resource type="Script" path="res://logic/hog/HogMeshManipulator.cs" id="5_qtobb"]
@@ -38,9 +37,6 @@ mesh = SubResource("CapsuleMesh_48xoi")
 position = Vector2(0, -3)
 rotation = 3.14159
 mesh = SubResource("PrismMesh_la52x")
-
-[node name="H2sCommunicator" type="Node" parent="."]
-script = ExtResource("3_xnr8x")
 
 [node name="HogNavigator" type="Node" parent="."]
 script = ExtResource("4_ihfpw")

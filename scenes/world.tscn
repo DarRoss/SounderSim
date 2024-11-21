@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://yrchqsg7v7jg"]
+[gd_scene load_steps=6 format=3 uid="uid://yrchqsg7v7jg"]
 
 [ext_resource type="PackedScene" uid="uid://bfvyrsxi75jdk" path="res://scenes/sounder.tscn" id="1_b5ag5"]
 [ext_resource type="Script" path="res://logic/CamController.cs" id="2_fa3qo"]
 [ext_resource type="Script" path="res://logic/nav/NavRegionGlobal.cs" id="2_hcwu4"]
+[ext_resource type="PackedScene" uid="uid://1w01l3h1ggvq" path="res://scenes/navigation_hazard_rect.tscn" id="4_q6mae"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_l7yxn"]
 vertices = PackedVector2Array(373, -38, 291, -38, -265.508, -120.844, -285.32, -168.148, 3982, -4013.99, 3982, 3977, 373, 32.1562, -279.391, -63.1875, 291, 30.8438, -297.547, -10.5938, -285.789, 34.5312, -295.961, 96.6016, -292.93, 164.359, -315.008, 232.711, -312.453, -202.078, -317.844, -242.461, -295.953, -333.008, -311.43, -705.617, -3987.01, -4009, -395.727, -700.352, -4001.98, 3983.99, -368.141, -330.547, -393.82, -266.367, -399.25, -207.781, -369.906, -156.438, -353, -119.797, -353, -79.5078, -376.203, -36.1328, -371.117, 26.8984, -390.148, 88.9922, -384.172, 149.688, -457.227, 253.992, -355.07, 285.094, -369.867, 411.758, -381.039, 357.75, -382.828, 321.18, -330.789, 446.93, -309.711, 492.258, -297.211, 528.711, -287.992, 599.461, -293.227, 828, -399.867, 828, -403.148, 498.031, -381, 541.406, -381, 602.523, -456.469, 446.727, -486, 373.953, -486, 315.789, -404.562, 205.289)
@@ -32,3 +33,6 @@ position = Vector2(329, 0)
 radius = 1.0
 vertices = PackedVector2Array(-28, -28, 34, -28, 34, 22, -28, 21)
 affect_navigation_mesh = true
+
+[node name="NavigationHazardRect" parent="." instance=ExtResource("4_q6mae")]
+position = Vector2(157, 0)

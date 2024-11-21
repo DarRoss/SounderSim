@@ -9,7 +9,7 @@ public abstract partial class NavigationHazard : Area2D
 	 *   This means that repellent value increases as you get closer to the trailing edge / center.
 	 */
 	[Export]
-	protected float repelBoundary = 0.5f;
+	protected float repelBoundary = 1;
 	/**
 	 * repelLinePos: The position of the line that divides the peak repellent zone and the repellent gradient.
 	 * - May either be horizontal, vertical or radial depending on the hazard direction.
