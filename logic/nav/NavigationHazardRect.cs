@@ -20,6 +20,7 @@ public partial class NavigationHazardRect : NavigationHazard
 
 	public override void _Ready()
 	{
+		base._Ready();
 		collisionRectangle = GetNode<CollisionShape2D>("CollisionRectangle").Shape as RectangleShape2D;
 		rectHalfSize = collisionRectangle.Size / 2;
 	}
@@ -30,22 +31,22 @@ public partial class NavigationHazardRect : NavigationHazard
 		switch(directionType)
 		{
 			case HazardRectDirection.Horizontal:
-				output = repelBoundary * rectHalfSize.X;
+				output = repelGradientEnd * rectHalfSize.X;
 				break;
 			case HazardRectDirection.Vertical:
-				output = repelBoundary * rectHalfSize.Y;
+				output = repelGradientEnd * rectHalfSize.Y;
 				break;
 			case HazardRectDirection.Up:
-				output = rectHalfSize.Y * (2 * repelBoundary - 1);
+				output = rectHalfSize.Y * (2 * repelGradientEnd - 1);
 				break;
 			case HazardRectDirection.Down:
-				output = rectHalfSize.Y * (1 - 2 * repelBoundary);
+				output = rectHalfSize.Y * (1 - 2 * repelGradientEnd);
 				break;
 			case HazardRectDirection.Right:
-				output = rectHalfSize.X * (2 * repelBoundary - 1);
+				output = rectHalfSize.X * (2 * repelGradientEnd - 1);
 				break;
 			case HazardRectDirection.Left:
-				output = rectHalfSize.X * (1 - 2 * repelBoundary);
+				output = rectHalfSize.X * (1 - 2 * repelGradientEnd);
 				break;
 		}
 		return output;
@@ -128,8 +129,10 @@ public partial class NavigationHazardRect : NavigationHazard
 					repelVector = Vector2.Left;
 					break;
 			}
+			// repel vector is scaled according to the calculated magnitude
 			repelVector *= repelMagnitude;
 		}
+		// rotate repel vector according to the hazard's rotation
 		return repelVector * GetTransform();
 	}
 }

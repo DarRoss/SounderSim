@@ -55,6 +55,7 @@ public partial class HogDetectionArea : Area2D
 
     public Vector2 GetAverageHazardRepelVector()
     {
+        // the zero magnitude represents a lack of hazards
         Vector2 output = Vector2.Zero;
         if(HasOverlappingAreas())
         {

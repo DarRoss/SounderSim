@@ -6,9 +6,8 @@ using Godot;
  */
 public partial class Sounder : Node
 {
-    // Time between sounder announcements.
     [Export]
-    private float communicationInterval = 0.1f;
+    private float recalculationInterval = 0.1f;
     // All hogs in the sounder should travel at this speed.
     [Export]
     private float sounderDesiredSpeed = 15;
@@ -48,7 +47,7 @@ public partial class Sounder : Node
         // update packet information
         DesiredSpeed = sounderDesiredSpeed;
 
-        CalculateAverages();
+        UpdateAverages();
         SetupIntermittentTimer();
     }
 
@@ -56,8 +55,8 @@ public partial class Sounder : Node
     {
         AddChild(intermittentTimer);
         // attach intermittent calculations to timer
-        intermittentTimer.Timeout += CalculateAverages;
-        intermittentTimer.WaitTime = communicationInterval;
+        intermittentTimer.Timeout += UpdateAverages;
+        intermittentTimer.WaitTime = recalculationInterval;
         intermittentTimer.Start();
     }
 
@@ -73,45 +72,40 @@ public partial class Sounder : Node
     /**
      * Remove a hog from this sounder.
      */
-    private bool RemoveHogFromDict(Hog hogChild)
+    private bool RemoveHogFromDict(string hogChildName)
     {
-        bool success = hogDict.ContainsKey(hogChild.Name);
+        bool success = hogDict.ContainsKey(hogChildName);
         // only remove if the hog is in the dictionary
         if(success)
         {
-            success = hogDict.Remove(hogChild.Name);
+            success = hogDict.Remove(hogChildName);
         }
         return success;
     }
 
     public void OnReceiveHogDeath(string hogName)
     {
-        // get the hog's node from our current list of hogs
-        Node child = hogChildrenNode.FindChild(hogName, false);
-        if(child != null && child is Hog hogChild)
+        if(RemoveHogFromDict(hogName))
         {
-            if(RemoveHogFromDict(hogChild))
+            // check if there are no more hogs in the sounder
+            if(hogChildrenNode.GetChildCount() <= 0)
             {
-                // check if there are no more hogs in the sounder
-                if(hogChildrenNode.GetChildCount() <= 0)
-                {
-                    // disband the sounder
-                    QueueFree();
-                    GD.Print("Sounder '" + Name + "' has been disbanded");
-                }
-                else
-                {
-                    // there are still more hogs in the sounder
-                }
+                // disband the sounder
+                QueueFree();
+                GD.Print("Sounder '" + Name + "' has been disbanded");
             }
             else
             {
-                // we tried to remove a hog that didn't exist
+                // there are still more hogs in the sounder
             }
+        }
+        else
+        {
+            // we tried to remove a hog that didn't exist
         }
     }
 
-    private void CalculateAverages()
+    private void UpdateAverages()
     {
         // sum of all hog global positions in the sounder
         Vector2 birdseyePositionSum = Vector2.Zero;

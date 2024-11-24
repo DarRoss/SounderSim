@@ -35,4 +35,5 @@ vertices = PackedVector2Array(-28, -28, 34, -28, 34, 22, -28, 21)
 affect_navigation_mesh = true
 
 [node name="NavigationHazardRect" parent="." instance=ExtResource("4_q6mae")]
-position = Vector2(157, 0)
+position = Vector2(43, -4)
+directionType = 1

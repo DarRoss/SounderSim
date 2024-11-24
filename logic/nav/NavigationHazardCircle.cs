@@ -6,12 +6,13 @@ public partial class NavigationHazardCircle : NavigationHazard
 
     public override void _Ready()
 	{
+		base._Ready();
 		collisionCircle = GetNode<CollisionShape2D>("CollisionCircle").Shape as CircleShape2D;
 	}
 
     protected override float GetRepelLinePos()
     {
-		return collisionCircle.Radius * repelBoundary;
+		return collisionCircle.Radius * repelGradientEnd;
     }
 
     public override Vector2 GetRepelVector(Vector2 clientBirdseyePos)

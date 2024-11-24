@@ -35,7 +35,7 @@ public partial class Hog : Node2D
     // the position of the hog in the world
     public Vector2 BirdseyePosition{get; set;}
     // the polar coordinate direction that the hog is pointing. -pi uninclusive to +pi inclusive
-    public float PolarDirection{get; set;}
+    public float PolarDirection{get; set;} = (float)GD.RandRange(-Mathf.Pi, Mathf.Pi);
     public Vector2 AverageNeighborPosition{get; private set;}
     // points away from nearby hazards
     public Vector2 AverageHazardRepelVector{get; private set;}
@@ -67,7 +67,6 @@ public partial class Hog : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        AverageHazardRepelVector = detectionArea.GetAverageHazardRepelVector();
         AdjustCurrentVelocity(delta);
         Vector2 oldPos = BirdseyePosition;
         BirdseyePosition = navigator.GetNextPosition(delta, BirdseyePosition, currSpeed);
@@ -81,6 +80,7 @@ public partial class Hog : Node2D
      */
     private void PerformIntermittentCalculations()
     {
+        AverageHazardRepelVector = detectionArea.GetAverageHazardRepelVector();
         navigator.UpdateTargetPosition(BirdseyePosition, PolarDirection, currSpeed);
         AverageNeighborPosition = detectionArea.GetAverageNeighborPosition();
         director.UpdateDesiredDirection();
