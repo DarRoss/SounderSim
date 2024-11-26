@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bumawoj282k82"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = -0.00720215
+offset_right = 1152.01
+offset_bottom = 648.0
+
+[node name="Left" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/Left"]
+layout_mode = 2
+text = "LEFT"
+horizontal_alignment = 1
+
+[node name="Center" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/Center"]
+layout_mode = 2
+text = "CENTER"
+horizontal_alignment = 1
+
+[node name="Right" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/Right"]
+layout_mode = 2
+text = "RIGHT"
+horizontal_alignment = 1

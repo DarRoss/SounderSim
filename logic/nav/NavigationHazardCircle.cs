@@ -6,13 +6,13 @@ public partial class NavigationHazardCircle : NavigationHazard
 
     public override void _Ready()
 	{
-		base._Ready();
 		collisionCircle = GetNode<CollisionShape2D>("CollisionCircle").Shape as CircleShape2D;
+		base._Ready();
 	}
 
     protected override float GetRepelLinePos()
     {
-		return collisionCircle.Radius * repelGradientEnd;
+		return collisionCircle.Radius * repelGradientDepth;
     }
 
     public override Vector2 GetRepelVector(Vector2 clientBirdseyePos)
@@ -26,10 +26,10 @@ public partial class NavigationHazardCircle : NavigationHazard
 			// normalize the client position vector
 			output = vecToClient / clientDist;
 			// check if client is in the gradient zone
-			if(clientDist > repelLinePos)
+			if(clientDist > gradientLinePos)
 			{
 				// apply gradient value to repel vector
-				output *= (collisionCircle.Radius - clientDist) / (collisionCircle.Radius - repelLinePos);
+				output *= (collisionCircle.Radius - clientDist) / (collisionCircle.Radius - gradientLinePos);
 			}
 		}
 		return output;

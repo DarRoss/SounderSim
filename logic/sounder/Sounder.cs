@@ -12,6 +12,9 @@ public partial class Sounder : Node
     [Export]
     private float sounderDesiredSpeed = 15;
 
+    [Export]
+    public Vector2 StartPosition{get; private set;}
+
     // node whose children belong to the hog class
     private Node hogChildrenNode;
     // timer for sounder announcements

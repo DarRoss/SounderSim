@@ -7,7 +7,8 @@ public partial class Hog : Node2D
 {
     // for use in moving towards desired speed and direction
     private const float SPEED_LERP = 5;
-    private const float DIRECTION_LERP = 1;
+    private const float DIR_LERP_SLOW = 1;
+    private const float DIR_LERP_FAST = 1.5f;
 
     // The time between intermittent calculations. Measured in seconds.
     [Export]
@@ -51,7 +52,7 @@ public partial class Hog : Node2D
         meshManipulator = GetNode<HogMeshManipulator>("HogMeshManipulator");
         OwnerSounder = GetNode<Sounder>("../..");
 
-        BirdseyePosition = GlobalPosition;
+        BirdseyePosition = Global.GlobalPosToBirdseye(GlobalPosition);
 
         SetupIntermittentTimer();
     }
@@ -72,7 +73,7 @@ public partial class Hog : Node2D
         BirdseyePosition = navigator.GetNextPosition(delta, BirdseyePosition, currSpeed);
         Vector2 currDirection = BirdseyePosition - oldPos;
         meshManipulator.SetDirection(currDirection);
-        GlobalPosition = BirdseyePosition;
+        GlobalPosition = Global.BirdseyePosToGlobal(BirdseyePosition);
     }
 
     /**
@@ -91,8 +92,9 @@ public partial class Hog : Node2D
      */
     private void AdjustCurrentVelocity(double delta)
     {
+        float dirLerp = AverageNeighborPosition.IsEqualApprox(Vector2.Inf) ? DIR_LERP_SLOW : DIR_LERP_FAST;
         PolarDirection = Mathf.LerpAngle(PolarDirection, 
-            director.HogDesiredPolarDirection, DIRECTION_LERP * (float)delta);
+            director.HogDesiredPolarDirection, dirLerp * (float)delta);
         currSpeed = Mathf.MoveToward(currSpeed, OwnerSounder.DesiredSpeed, SPEED_LERP * (float)delta);
     }
 

@@ -1,14 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://yrchqsg7v7jg"]
+[gd_scene load_steps=10 format=3 uid="uid://yrchqsg7v7jg"]
 
 [ext_resource type="PackedScene" uid="uid://bfvyrsxi75jdk" path="res://scenes/sounder.tscn" id="1_b5ag5"]
 [ext_resource type="Script" path="res://logic/CamController.cs" id="2_fa3qo"]
 [ext_resource type="Script" path="res://logic/nav/NavRegionGlobal.cs" id="2_hcwu4"]
+[ext_resource type="PackedScene" uid="uid://bumawoj282k82" path="res://scenes/ui.tscn" id="3_afxxs"]
 [ext_resource type="PackedScene" uid="uid://1w01l3h1ggvq" path="res://scenes/navigation_hazard_rect.tscn" id="4_q6mae"]
+[ext_resource type="PackedScene" uid="uid://b0sibvva3wwos" path="res://scenes/navigation_hazard_circle.tscn" id="5_ri5pu"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_l7yxn"]
 vertices = PackedVector2Array(373, -38, 291, -38, -265.508, -120.844, -285.32, -168.148, 3982, -4013.99, 3982, 3977, 373, 32.1562, -279.391, -63.1875, 291, 30.8438, -297.547, -10.5938, -285.789, 34.5312, -295.961, 96.6016, -292.93, 164.359, -315.008, 232.711, -312.453, -202.078, -317.844, -242.461, -295.953, -333.008, -311.43, -705.617, -3987.01, -4009, -395.727, -700.352, -4001.98, 3983.99, -368.141, -330.547, -393.82, -266.367, -399.25, -207.781, -369.906, -156.438, -353, -119.797, -353, -79.5078, -376.203, -36.1328, -371.117, 26.8984, -390.148, 88.9922, -384.172, 149.688, -457.227, 253.992, -355.07, 285.094, -369.867, 411.758, -381.039, 357.75, -382.828, 321.18, -330.789, 446.93, -309.711, 492.258, -297.211, 528.711, -287.992, 599.461, -293.227, 828, -399.867, 828, -403.148, 498.031, -381, 541.406, -381, 602.523, -456.469, 446.727, -486, 373.953, -486, 315.789, -404.562, 205.289)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(4, 5, 6, 0), PackedInt32Array(7, 2, 1, 8), PackedInt32Array(9, 7, 8, 10), PackedInt32Array(11, 10, 8, 12), PackedInt32Array(5, 13, 12, 8, 6), PackedInt32Array(4, 3, 14, 15, 16), PackedInt32Array(4, 16, 17), PackedInt32Array(18, 4, 17, 19), PackedInt32Array(20, 18, 19, 21, 22), PackedInt32Array(20, 22, 23), PackedInt32Array(20, 23, 24, 25, 26, 27), PackedInt32Array(20, 27, 28, 29), PackedInt32Array(20, 29, 30, 31), PackedInt32Array(32, 13, 5), PackedInt32Array(33, 34, 35, 32, 5, 36), PackedInt32Array(37, 36, 5), PackedInt32Array(38, 37, 5), PackedInt32Array(39, 38, 5), PackedInt32Array(40, 39, 5), PackedInt32Array(40, 5, 20, 41), PackedInt32Array(42, 43, 44, 41, 20, 45), PackedInt32Array(46, 45, 20), PackedInt32Array(47, 46, 20), PackedInt32Array(30, 48, 31), PackedInt32Array(20, 31, 47)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-3997, -4019, 3992, -4024, 3992, 3987, -4012, 3994)])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbckd"]
+size = Vector2(500, 1600)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tqr0r"]
+radius = 140.0
 
 [node name="World" type="Node2D"]
 
@@ -28,12 +36,31 @@ radius = 1.0
 vertices = PackedVector2Array(-34, -472, -60, -407, -65, -353, -37, -304, -19, -265, -19, -220, -42, -177, -37, -115, -56, -53, -50, 8, -72, 68, -125, 117, -152, 175, -152, 229, -124, 298, -71, 349, -47, 396, -47, 460, -65, 675, 21, 675, 26, 457, 17, 388, 5, 353, -15, 310, -55, 274, -67, 216, -69, 175, -39, 136, 0, 85, 21, 20, 18, -47, 28, -108, 16, -154, 35, -209, 48, -263, 30, -306, 2, -341, -4, -386, 18, -477, 3, -838, -61, -834)
 affect_navigation_mesh = true
 
+[node name="riverHazard" parent="NavigationRegion2D/river" instance=ExtResource("4_q6mae")]
+position = Vector2(-13, -140)
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="NavigationRegion2D/river/riverHazard" index="0"]
+position = Vector2(-19, 45)
+shape = SubResource("RectangleShape2D_fbckd")
+
 [node name="house1" type="NavigationObstacle2D" parent="NavigationRegion2D"]
 position = Vector2(329, 0)
 radius = 1.0
 vertices = PackedVector2Array(-28, -28, 34, -28, 34, 22, -28, 21)
 affect_navigation_mesh = true
 
-[node name="NavigationHazardRect" parent="." instance=ExtResource("4_q6mae")]
-position = Vector2(43, -4)
-directionType = 1
+[node name="houseHazard" parent="NavigationRegion2D/house1" instance=ExtResource("5_ri5pu")]
+position = Vector2(1, -1)
+repelGradientDepth = 0.5
+
+[node name="CollisionCircle" parent="NavigationRegion2D/house1/houseHazard" index="0"]
+shape = SubResource("CircleShape2D_tqr0r")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("3_afxxs")]
+
+[editable path="NavigationRegion2D/river/riverHazard"]
+[editable path="NavigationRegion2D/house1/houseHazard"]

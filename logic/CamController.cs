@@ -37,7 +37,7 @@ public partial class CamController : Camera2D
         if(!moveDelta.IsZeroApprox())
 		{
 			// movement slows down when zoomed in
-			Position += 1 / Zoom.X * moveDelta * speedFactor * MOVE_SPEED * (float)delta;
+			GlobalPosition += 1 / Zoom.X * moveDelta * speedFactor * MOVE_SPEED * (float)delta;
 		}
 
 		if(!Mathf.IsZeroApprox(zoomDelta))

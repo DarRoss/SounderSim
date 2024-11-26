@@ -6,7 +6,7 @@ using Godot;
 public partial class HogNavigator : Node
 {
     private const float TARGET_DIST_FACTOR = 4;
-    private const float DIST_SQUARED_MIN = 1;
+    private const float DIST_SQUARED_MIN = 9;
     private Vector2 TargetPosition;
     private Vector2[] pathPts;
 

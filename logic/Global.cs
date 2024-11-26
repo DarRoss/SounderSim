@@ -13,4 +13,14 @@ public partial class Global : Node
     {
         Instance ??= this;
     }
+
+    public static Vector2 GlobalPosToBirdseye(Vector2 globalPos)
+    {
+        return globalPos;
+    }
+
+    public static Vector2 BirdseyePosToGlobal(Vector2 birdseyePos)
+    {
+        return birdseyePos;
+    }
 }
