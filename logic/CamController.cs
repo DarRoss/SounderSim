@@ -9,6 +9,8 @@ public partial class CamController : Camera2D
 	private float zoomDelta;
 	private float speedFactor = 1;
 
+	public Transform2D CamTransform => new(0, Zoom, 0, Position);
+
 	public override void _Input(InputEvent ie)
     {
         if(ie.IsAction("MoveUp") || ie.IsAction("MoveDown"))

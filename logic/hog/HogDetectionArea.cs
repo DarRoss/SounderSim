@@ -19,6 +19,10 @@ public partial class HogDetectionArea : Area2D
             if(iemb.Pressed)
             {
                 // hog detection area clicked
+                if(Global.Instance.InspectionHog != Hog)
+                {
+                    Global.Instance.InspectionHog = Hog;
+                }
             }
         }
     }

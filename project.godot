@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 
 Global="*res://logic/Global.cs"
 
+[display]
+
+window/vsync/vsync_mode=0
+
 [dotnet]
 
 project/assembly_name="Sounder Sim"

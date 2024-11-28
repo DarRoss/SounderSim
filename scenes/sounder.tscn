@@ -27,3 +27,39 @@ position = Vector2(-22, 0)
 
 [node name="Hog7" parent="HogChildren" instance=ExtResource("2_25klp")]
 position = Vector2(10, -19)
+
+[node name="Hog8" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-21, -36)
+
+[node name="Hog9" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-1, -37)
+
+[node name="Hog10" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(30, -16)
+
+[node name="Hog11" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(32, 18)
+
+[node name="Hog12" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(0, 34)
+
+[node name="Hog13" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-31, 15)
+
+[node name="Hog14" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-32, -18)
+
+[node name="Hog15" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(21, -36)
+
+[node name="Hog16" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(42, 0)
+
+[node name="Hog17" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(21, 34)
+
+[node name="Hog18" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-21, 34)
+
+[node name="Hog19" parent="HogChildren" instance=ExtResource("2_25klp")]
+position = Vector2(-41, -3)

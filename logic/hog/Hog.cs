@@ -1,20 +1,24 @@
+using System;
 using Godot;
 
 /**
  * Quadruped animal that travels in a group (sounder).
  */
-public partial class Hog : Node2D
+public partial class Hog : Node2D, IComparable<Hog>
 {
     // for use in moving towards desired speed and direction
-    private const float SPEED_LERP = 5;
+    private const float SPEED_LERP = 7;
     private const float DIR_LERP_SLOW = 1;
     private const float DIR_LERP_FAST = 1.5f;
+    private const float CROWDED_SPEED_FACTOR = 0.7f;
+
+    private static int HogIdCounter = -1;
 
     // The time between intermittent calculations. Measured in seconds.
     [Export]
     private float recalculationInterval = 0.1f;
     [Signal]
-    public delegate void AnnounceHogDeathEventHandler(string hogName);
+    public delegate void AnnounceHogDeathEventHandler(Hog hog);
 
     // nodes of interest
     private HogDetectionArea detectionArea;
@@ -31,11 +35,13 @@ public partial class Hog : Node2D
     /**
      * public hog variables
      */
+    
+    public int Identifier{get; private set;}
     // true if the hog is not dead
     public bool IsAlive{get; set;}
     // the position of the hog in the world
     public Vector2 BirdseyePosition{get; set;}
-    // the polar coordinate direction that the hog is pointing. -pi uninclusive to +pi inclusive
+    // the polar coordinate direction that the hog is pointing. -pi to +pi uninclusive
     public float PolarDirection{get; set;} = (float)GD.RandRange(-Mathf.Pi, Mathf.Pi);
     public Vector2 AverageNeighborPosition{get; private set;}
     // points away from nearby hazards
@@ -45,6 +51,7 @@ public partial class Hog : Node2D
 
     public override void _Ready()
     {
+        Identifier = ++HogIdCounter;
         // initialize nodes of interest
         detectionArea = GetNode<HogDetectionArea>("HogDetectionArea");
         navigator = GetNode<HogNavigator>("HogNavigator");
@@ -92,10 +99,22 @@ public partial class Hog : Node2D
      */
     private void AdjustCurrentVelocity(double delta)
     {
-        float dirLerp = AverageNeighborPosition.IsEqualApprox(Vector2.Inf) ? DIR_LERP_SLOW : DIR_LERP_FAST;
+        float dirLerp;
+        float targetSpeed = OwnerSounder.DesiredSpeed;
+        if(AverageNeighborPosition.IsEqualApprox(Vector2.Inf))
+        {
+            // no neighbors around
+            dirLerp = DIR_LERP_SLOW;
+        }
+        else
+        {
+            targetSpeed *= CROWDED_SPEED_FACTOR;
+            dirLerp = DIR_LERP_FAST;
+        }
+
         PolarDirection = Mathf.LerpAngle(PolarDirection, 
             director.HogDesiredPolarDirection, dirLerp * (float)delta);
-        currSpeed = Mathf.MoveToward(currSpeed, OwnerSounder.DesiredSpeed, SPEED_LERP * (float)delta);
+        currSpeed = Mathf.MoveToward(currSpeed, targetSpeed, SPEED_LERP * (float)delta);
     }
 
     /**
@@ -107,8 +126,18 @@ public partial class Hog : Node2D
         {
             IsAlive = false;
             GD.Print("Hog '" + Name + "' has died");
-            EmitSignal(SignalName.AnnounceHogDeath, Name);
+            EmitSignal(SignalName.AnnounceHogDeath, this);
             QueueFree();
         }
+    }
+
+    public int CompareTo(Hog other)
+    {
+        int result = 1;
+        if(other != null)
+        {
+            result = Identifier.CompareTo(other.Identifier);
+        }
+        return result;
     }
 }
