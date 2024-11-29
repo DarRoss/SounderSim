@@ -49,6 +49,8 @@ public partial class Hog : Node2D, IComparable<Hog>
     // the sounder that owns this hog
     public Sounder OwnerSounder{get; private set;}
 
+    public Vector2[] PathPoints => navigator.PathPoints;
+
     public override void _Ready()
     {
         Identifier = ++HogIdCounter;

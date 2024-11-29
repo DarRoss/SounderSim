@@ -6,9 +6,9 @@ using Godot;
 public partial class HogNavigator : Node
 {
     private const float TARGET_DIST_FACTOR = 4;
-    private const float DIST_SQUARED_MIN = 9;
+    private const float DIST_SQUARED_MIN = 36;
     private Vector2 TargetPosition;
-    private Vector2[] pathPts;
+    public Vector2[] PathPoints{get; private set;}
 
     /**
      * Determine a new target position based on birdseye position, direction and speed.
@@ -29,12 +29,12 @@ public partial class HogNavigator : Node
         if(Global.Instance.MapRid.IsValid)
         {
             bool found = false;
-            pathPts = NavigationServer2D.MapGetPath(Global.Instance.MapRid, birdseyePos, TargetPosition, true);
-            for(int ptIndex = 0; ptIndex < pathPts.Length && !found; ++ptIndex)
+            PathPoints = NavigationServer2D.MapGetPath(Global.Instance.MapRid, birdseyePos, TargetPosition, true);
+            for(int ptIndex = 0; ptIndex < PathPoints.Length && !found; ++ptIndex)
             {
-                if(pathPts[ptIndex].DistanceSquaredTo(birdseyePos) >= DIST_SQUARED_MIN)
+                if(PathPoints[ptIndex].DistanceSquaredTo(birdseyePos) >= DIST_SQUARED_MIN)
                 {
-                    output = birdseyePos.MoveToward(pathPts[ptIndex], speed * (float)delta);
+                    output = birdseyePos.MoveToward(PathPoints[ptIndex], speed * (float)delta);
                     found = true;
                 }
             }
