@@ -56,7 +56,7 @@ public partial class NavigationHazardRect : NavigationHazard
 	{
 		Vector2 repelVector = Vector2.Zero;
 		// assume that rectangle is axis aligned
-		Vector2 cliPosRelToHaz = clientBirdseyePos - birdseyePosition;
+		Vector2 cliPosRelToHaz = (clientBirdseyePos - birdseyePosition).Rotated(-Rotation);
 		// check if the client is within the rectangle bounds
 		if( cliPosRelToHaz.X <=  rectHalfSize.X &&
 			cliPosRelToHaz.X >= -rectHalfSize.X &&
@@ -72,7 +72,7 @@ public partial class NavigationHazardRect : NavigationHazard
 			}
 		}
 		// rotate repel vector according to the hazard's rotation
-		return repelVector;
+		return repelVector.Rotated(Rotation);
 	}
 
 	private Vector2 GetRepelDirection(Vector2 cliPosRelToHaz)

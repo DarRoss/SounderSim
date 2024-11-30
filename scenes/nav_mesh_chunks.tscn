@@ -1,0 +1,117 @@
+[gd_scene load_steps=9 format=3 uid="uid://s803yokhbh5i"]
+
+[ext_resource type="Script" path="res://logic/nav/NavMeshChunks.cs" id="1_6t22b"]
+[ext_resource type="PackedScene" uid="uid://1w01l3h1ggvq" path="res://scenes/navigation_hazard_rect.tscn" id="2_ql53u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jurf8"]
+size = Vector2(1000, 1700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ubf0o"]
+size = Vector2(1000, 1200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb7oq"]
+size = Vector2(1000, 1200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6vgf"]
+size = Vector2(1000, 1400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvgkw"]
+size = Vector2(1000, 1900)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjo0v"]
+size = Vector2(1000, 1600)
+
+[node name="NavMeshChunks" type="Node2D"]
+script = ExtResource("1_6t22b")
+
+[node name="ParseRootNode" type="Node2D" parent="."]
+
+[node name="River" type="StaticBody2D" parent="ParseRootNode"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ParseRootNode/River"]
+polygon = PackedVector2Array(341, -434, 218, -821, 36, -1153, -46, -1447, -36, -1737, 203, -2139, 248, -2527, 186, -2868, -9, -3215, -340, -3563, -698, -3705, -956, -3950, -1130, -4316, -1429, -4388, -1268, -3855, -950, -3559, -615, -3381, -306, -3194, -115, -2927, 12, -2643, 28, -2362, -105, -2036, -287, -1660, -231, -1231, -126, -868, 26, -559, 75, -134, 22, 232, -196, 579, -351, 1125, -288, 1662, -245, 2001, -309, 2457, -408, 2798, -589, 3174, -793, 3459, -1051, 3770, -1353, 4085, -1791, 4450, -1390, 4393, -949, 4040, -666, 3731, -465, 3412, -322, 3045, -197, 2721, -53, 2281, -8, 1760, -66, 1334, -42, 926, 165, 523, 320, 131)
+
+[node name="NavigationHazardRect4" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-704, -3661)
+rotation = -0.858139
+scale = Vector2(1, 1)
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect4" index="0"]
+shape = SubResource("RectangleShape2D_jurf8")
+
+[node name="NavigationHazardRect6" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-40.0001, -2869)
+rotation = -0.400645
+scale = Vector2(1, 1)
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect6" index="0"]
+shape = SubResource("RectangleShape2D_ubf0o")
+
+[node name="NavigationHazardRect5" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-6.99992, -1935)
+rotation = 0.32502
+scale = Vector2(1, 1)
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect5" index="0"]
+shape = SubResource("RectangleShape2D_bb7oq")
+
+[node name="NavigationHazardRect" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(14, -898)
+rotation = -0.3613
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect" index="0"]
+shape = SubResource("RectangleShape2D_c6vgf")
+
+[node name="NavigationHazardRect7" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(78, 121)
+rotation = 0.243441
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect7" index="0"]
+shape = SubResource("RectangleShape2D_c6vgf")
+
+[node name="NavigationHazardRect2" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-139, 1517)
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect2" index="0"]
+shape = SubResource("RectangleShape2D_rvgkw")
+
+[node name="NavigationHazardRect3" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-428, 3029)
+rotation = 0.421532
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect3" index="0"]
+shape = SubResource("RectangleShape2D_vjo0v")
+
+[node name="NavigationHazardRect8" parent="ParseRootNode/River" instance=ExtResource("2_ql53u")]
+position = Vector2(-1146, 3953)
+rotation = 0.816894
+directionType = 4
+repelGradientDepth = 0.5
+
+[node name="CollisionRectangle" parent="ParseRootNode/River/NavigationHazardRect8" index="0"]
+shape = SubResource("RectangleShape2D_vjo0v")
+
+[node name="ChunkContainer" type="Node2D" parent="."]
+
+[editable path="ParseRootNode/River/NavigationHazardRect4"]
+[editable path="ParseRootNode/River/NavigationHazardRect6"]
+[editable path="ParseRootNode/River/NavigationHazardRect5"]
+[editable path="ParseRootNode/River/NavigationHazardRect"]
+[editable path="ParseRootNode/River/NavigationHazardRect7"]
+[editable path="ParseRootNode/River/NavigationHazardRect2"]
+[editable path="ParseRootNode/River/NavigationHazardRect3"]
+[editable path="ParseRootNode/River/NavigationHazardRect8"]
